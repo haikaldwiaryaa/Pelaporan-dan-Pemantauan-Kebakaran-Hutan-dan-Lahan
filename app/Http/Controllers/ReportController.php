@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Http\Requests\UpdateReportRequest;
-use Illuminate\Support\Facades\Storage;
+use DomainException;
 
 class ReportController extends Controller
 {
@@ -69,20 +69,17 @@ class ReportController extends Controller
         return view('reports.edit', compact('report', 'areas', 'conditionLevels'));
     }
 
-    public function update(UpdateReportRequest $request, Report $report): RedirectResponse
+    public function update(UpdateReportRequest $request, Report $report, ReportService $service): RedirectResponse
     {
         abort_unless($report->user_id === Auth::id(), 403);
 
-        $data = $request->validated();
-
-        if ($request->hasFile('evidence')) {
-            if ($report->evidence_path) {
-                Storage::disk('public')->delete($report->evidence_path);
-            }
-            $data['evidence_path'] = $request->file('evidence')->store('evidence', 'public');
+        try {
+            $service->update($report, $request->validated());
+        } catch (DomainException $e) {
+            return back()
+                ->withInput()
+                ->withErrors(['status' => $e->getMessage()]);
         }
-
-        $report->update($data);
 
         return redirect()
             ->route('reports.show', $report)
