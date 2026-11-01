@@ -82,6 +82,6 @@ Semua akun memakai password `password`.
 | Role        | Nama             | Username     |
 | ----------- | ---------------- | ------------ |
 | Pelapor     | Haikal           | xall         |
-| Pelapor     | Daffa            | Angpaboy     |
+| Pelapor     | Daffa            | angpaboy     |
 | Relawan     | Andi Relawan     | relawan1     |
 | Koordinator | Rina Koordinator | koordinator1 |

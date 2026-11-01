@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         $pelapor1->save();
 
         $pelapor2 = User::firstOrCreate(
-            ['username' => 'Angpaboy'],
+            ['username' => 'angpaboy'],
             [
                 'name' => 'Daffa',
                 'password' => Hash::make('password'),
