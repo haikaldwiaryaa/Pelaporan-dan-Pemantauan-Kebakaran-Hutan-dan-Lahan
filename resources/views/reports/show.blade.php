@@ -78,6 +78,19 @@
             @error('note')
                 <p class="error">{{ $message }}</p>
             @enderror
+            <div style="margin: 0.5rem 0;">
+                <label for="status">Ubah status:</label>
+                <select id="status" name="status" style="padding: 0.3rem;">
+                    <option value="">-- Tidak diubah --</option>
+                    <option value="ditinjau" {{ old('status') == 'ditinjau' ? 'selected' : '' }}>ditinjau</option>
+                    <option value="perlu_diteruskan" {{ old('status') == 'perlu_diteruskan' ? 'selected' : '' }}>perlu_diteruskan
+                    </option>
+                    <option value="selesai" {{ old('status') == 'selesai' ? 'selected' : '' }}>selesai</option>
+                </select>
+                @error('status')
+                    <p class="error">{{ $message }}</p>
+                @enderror
+            </div>
             <button type="submit">Simpan Catatan</button>
         </form>
     @endif

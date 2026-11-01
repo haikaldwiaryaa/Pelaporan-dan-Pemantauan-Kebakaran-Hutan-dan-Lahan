@@ -1,13 +1,21 @@
 <?php
 
 namespace App\Services;
-
+use App\Models\ReviewNote;
+use Illuminate\Support\Facades\DB;
 use App\Models\Report;
 use DomainException;
 use Illuminate\Support\Facades\Storage;
 
 class ReportService
 {
+    private const TRANSITIONS = [
+        'baru' => ['ditinjau'],
+        'ditinjau' => ['perlu_diteruskan', 'selesai'],
+        'perlu_diteruskan' => [],
+        'diteruskan' => ['selesai'],
+        'selesai' => [],
+    ];
     public function create(array $data, int $userId): Report
     {
         $data['user_id'] = $userId;
@@ -31,5 +39,29 @@ class ReportService
         $report->update($data);
 
         return $report;
+    }
+    public function review(Report $report, array $data, int $userId): void
+    {
+        $newStatus = $data['status'] ?? null;
+
+        if ($newStatus) {
+            $allowed = self::TRANSITIONS[$report->status] ?? [];
+
+            if (!in_array($newStatus, $allowed, true)) {
+                throw new DomainException("Status tidak bisa diubah dari {$report->status} ke {$newStatus}.");
+            }
+        }
+
+        DB::transaction(function () use ($report, $data, $userId, $newStatus) {
+            ReviewNote::create([
+                'report_id' => $report->id,
+                'user_id' => $userId,
+                'note' => $data['note'],
+            ]);
+
+            if ($newStatus) {
+                $report->update(['status' => $newStatus]);
+            }
+        });
     }
 }
