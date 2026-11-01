@@ -11,22 +11,34 @@ use Illuminate\View\View;
 use App\Http\Requests\UpdateReportRequest;
 use DomainException;
 use App\Models\ExternalParty;
+use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
         $user = Auth::user();
+        $area = $request->query('area');
+        $status = $request->query('status');
 
         $reports = Report::query()
             ->with('user')
             ->when($user->role === 'pelapor', function ($q) use ($user) {
                 $q->where('user_id', $user->id);
             })
+            ->when($area, function ($q, $area) {
+                $q->where('area', $area);
+            })
+            ->when($status, function ($q, $status) {
+                $q->where('status', $status);
+            })
             ->orderBy('incident_at', 'desc')
             ->paginate(10);
 
-        return view('reports.index', compact('reports'));
+        $areas = Report::AREAS;
+        $statuses = Report::STATUSES;
+
+        return view('reports.index', compact('reports', 'areas', 'statuses', 'area', 'status'));
     }
     public function create(): View
     {
