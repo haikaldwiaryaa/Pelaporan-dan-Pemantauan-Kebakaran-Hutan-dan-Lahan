@@ -3,6 +3,13 @@
 @section('content')
     <a href="{{ route('reports.index') }}">&larr; Daftar Laporan</a>
     <h2>Detail Laporan #{{ $report->id }}</h2>
+    @if (session('success'))
+        <p style="color: green;">{{ session('success') }}</p>
+    @endif
+
+    @if (Auth::user()->role === 'pelapor')
+        <p><a href="{{ route('reports.edit', $report) }}">Ubah Laporan</a></p>
+    @endif
 
     <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
         <tr>

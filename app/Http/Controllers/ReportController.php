@@ -8,6 +8,8 @@ use App\Services\ReportService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Http\Requests\UpdateReportRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -56,5 +58,34 @@ class ReportController extends Controller
         }
 
         return view('reports.show', compact('report'));
+    }
+    public function edit(Report $report): View
+    {
+        abort_unless($report->user_id === Auth::id(), 403);
+
+        $areas = Report::AREAS;
+        $conditionLevels = Report::CONDITION_LEVELS;
+
+        return view('reports.edit', compact('report', 'areas', 'conditionLevels'));
+    }
+
+    public function update(UpdateReportRequest $request, Report $report): RedirectResponse
+    {
+        abort_unless($report->user_id === Auth::id(), 403);
+
+        $data = $request->validated();
+
+        if ($request->hasFile('evidence')) {
+            if ($report->evidence_path) {
+                Storage::disk('public')->delete($report->evidence_path);
+            }
+            $data['evidence_path'] = $request->file('evidence')->store('evidence', 'public');
+        }
+
+        $report->update($data);
+
+        return redirect()
+            ->route('reports.show', $report)
+            ->with('success', 'Laporan berhasil diubah.');
     }
 }

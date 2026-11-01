@@ -20,4 +20,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports/create', [ReportController::class, 'create'])->middleware('can:create-report')->name('reports.create');
     Route::post('/reports', [ReportController::class, 'store'])->middleware('can:create-report')->name('reports.store');
     Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
+    Route::get('/reports/{report}/edit', [ReportController::class, 'edit'])->middleware('can:create-report')->name('reports.edit');
+    Route::put('/reports/{report}', [ReportController::class, 'update'])->middleware('can:create-report')->name('reports.update');
 });
