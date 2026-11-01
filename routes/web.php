@@ -31,4 +31,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/external-parties', [ExternalPartyController::class, 'store'])->middleware('can:manage-external-parties')->name('external-parties.store');
     Route::get('/external-parties/{externalParty}/edit', [ExternalPartyController::class, 'edit'])->middleware('can:manage-external-parties')->name('external-parties.edit');
     Route::put('/external-parties/{externalParty}', [ExternalPartyController::class, 'update'])->middleware('can:manage-external-parties')->name('external-parties.update');
+    Route::post('/area-info', [ReportController::class, 'areaInfo'])->name('area-info');
 });

@@ -12,6 +12,8 @@ use App\Http\Requests\UpdateReportRequest;
 use DomainException;
 use App\Models\ExternalParty;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 
 class ReportController extends Controller
 {
@@ -100,5 +102,22 @@ class ReportController extends Controller
         return redirect()
             ->route('reports.show', $report)
             ->with('success', 'Laporan berhasil diubah.');
+    }
+    public function areaInfo(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'area' => ['required', Rule::in(Report::AREAS)],
+        ]);
+
+        $area = $data['area'];
+
+        return response()->json([
+            'area' => $area,
+            'total_aktif' => Report::where('area', $area)->where('status', '!=', 'selesai')->count(),
+            'baru' => Report::where('area', $area)->where('status', 'baru')->count(),
+            'ditinjau' => Report::where('area', $area)->where('status', 'ditinjau')->count(),
+            'perlu_diteruskan' => Report::where('area', $area)->where('status', 'perlu_diteruskan')->count(),
+            'diteruskan' => Report::where('area', $area)->where('status', 'diteruskan')->count(),
+        ]);
     }
 }

@@ -6,6 +6,7 @@
             <option value="{{ $area }}" {{ old('area', $report->area ?? '') == $area ? 'selected' : '' }}>{{ $area }}</option>
         @endforeach
     </select>
+    <p id="area-info" style="margin: 0.3rem 0; color: #475569;"></p>
     @error('area')
         <p class="error">{{ $message }}</p>
     @enderror
@@ -80,3 +81,38 @@
         <p>Bukti saat ini: <a href="{{ asset('storage/' . $report->evidence_path) }}" target="_blank">Lihat bukti</a></p>
     @endif
 </div>
+<script>
+    const areaSelect = document.getElementById('area');
+    const areaInfo = document.getElementById('area-info');
+
+    async function loadAreaInfo() {
+        if (areaSelect.value === '') {
+            areaInfo.textContent = '';
+            return;
+        }
+
+        areaInfo.textContent = 'Memuat info wilayah...';
+
+        try {
+            const response = await fetch('/area-info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ area: areaSelect.value })
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message);
+
+            areaInfo.textContent = `Di ${data.area} ada ${data.total_aktif} laporan aktif: ${data.baru} baru, ${data.ditinjau} ditinjau, ${data.perlu_diteruskan} perlu diteruskan, ${data.diteruskan} diteruskan.`;
+        } catch (error) {
+            areaInfo.textContent = 'Gagal memuat info wilayah: ' + error.message;
+        }
+    }
+
+    areaSelect.addEventListener('change', loadAreaInfo);
+    loadAreaInfo();
+</script>
