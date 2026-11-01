@@ -21,6 +21,7 @@
                 <th>Kondisi</th>
                 <th>Status</th>
                 <th>Pelapor</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -32,10 +33,11 @@
                     <td>{{ $report->condition_level }}</td>
                     <td>{{ $report->status }}</td>
                     <td>{{ $report->user->name }}</td>
+                    <td><a href="{{ route('reports.show', $report) }}">Detail</a></td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6">Belum ada laporan.</td>
+                    <td colspan="7">Belum ada laporan.</td>
                 </tr>
             @endforelse
         </tbody>

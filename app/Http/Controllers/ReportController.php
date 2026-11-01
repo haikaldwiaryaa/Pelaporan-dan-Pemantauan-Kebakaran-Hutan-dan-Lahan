@@ -47,4 +47,14 @@ class ReportController extends Controller
             ->route('reports.index')
             ->with('success', 'Laporan berhasil dikirim.');
     }
+    public function show(Report $report): View
+    {
+        $user = Auth::user();
+
+        if ($user->role === 'pelapor') {
+            abort_unless($report->user_id === $user->id, 403);
+        }
+
+        return view('reports.show', compact('report'));
+    }
 }

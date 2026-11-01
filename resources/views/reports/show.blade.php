@@ -1,0 +1,55 @@
+@extends('layouts.app')
+
+@section('content')
+    <a href="{{ route('reports.index') }}">&larr; Daftar Laporan</a>
+    <h2>Detail Laporan #{{ $report->id }}</h2>
+
+    <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <th style="width: 30%; text-align: left;">Status</th>
+            <td><strong>{{ $report->status }}</strong></td>
+        </tr>
+        <tr>
+            <th style="text-align: left;">Pelapor</th>
+            <td>{{ $report->user->name }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left;">Wilayah</th>
+            <td>{{ $report->area }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left;">Patokan lokasi</th>
+            <td>{{ $report->location_detail ?? '-' }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left;">Latitude</th>
+            <td>{{ $report->latitude }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left;">Longitude</th>
+            <td>{{ $report->longitude }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left;">Waktu kejadian</th>
+            <td>{{ $report->incident_at->format('d-m-Y H:i') }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left;">Tingkat kondisi</th>
+            <td>{{ $report->condition_level }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left;">Kondisi yang dilihat</th>
+            <td>{{ $report->description }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left;">Bukti</th>
+            <td>
+                @if ($report->evidence_path)
+                    <a href="{{ asset('storage/' . $report->evidence_path) }}" target="_blank">Lihat bukti</a>
+                @else
+                    Tidak ada bukti
+                @endif
+            </td>
+        </tr>
+    </table>
+@endsection

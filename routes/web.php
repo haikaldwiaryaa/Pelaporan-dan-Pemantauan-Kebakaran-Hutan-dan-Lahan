@@ -19,4 +19,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/create', [ReportController::class, 'create'])->middleware('can:create-report')->name('reports.create');
     Route::post('/reports', [ReportController::class, 'store'])->middleware('can:create-report')->name('reports.store');
+    Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
 });
