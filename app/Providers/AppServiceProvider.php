@@ -33,5 +33,9 @@ class AppServiceProvider extends ServiceProvider
             'forward-report',
             fn(User $user): bool => $user->role === 'koordinator'
         );
+        Gate::define(
+            'manage-external-parties',
+            fn(User $user): bool => $user->role === 'koordinator'
+        );
     }
 }

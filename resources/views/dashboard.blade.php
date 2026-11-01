@@ -11,4 +11,7 @@
     @if (Auth::user()->role === 'pelapor')
         <p><a href="{{ route('reports.create') }}">+ Buat Laporan</a></p>
     @endif
+    @if (Auth::user()->role === 'koordinator')
+        <p><a href="{{ route('external-parties.index') }}">Pihak Terkait</a></p>
+    @endif
 @endsection

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ForwardingController;
+use App\Http\Controllers\ExternalPartyController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -26,4 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/reports/{report}', [ReportController::class, 'update'])->middleware('can:create-report')->name('reports.update');
     Route::post('/reports/{report}/review', [ReviewController::class, 'store'])->middleware('can:review-report')->name('reports.review');
     Route::post('/reports/{report}/forward', [ForwardingController::class, 'store'])->middleware('can:forward-report')->name('reports.forward');
+    Route::get('/external-parties', [ExternalPartyController::class, 'index'])->middleware('can:manage-external-parties')->name('external-parties.index');
+    Route::post('/external-parties', [ExternalPartyController::class, 'store'])->middleware('can:manage-external-parties')->name('external-parties.store');
 });
