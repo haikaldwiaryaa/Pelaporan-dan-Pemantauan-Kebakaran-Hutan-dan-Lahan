@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Report extends Model
 {
+    public const AREAS = ['Kampar', 'Pelalawan', 'Siak', 'Bengkalis', 'Indragiri Hulu'];
+    public const CONDITION_LEVELS = ['asap_tipis', 'asap_tebal', 'api_terlihat'];
     protected $fillable = [
         'user_id',
         'description',
