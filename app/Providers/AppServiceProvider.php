@@ -38,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
             'manage-external-parties',
             fn(User $user): bool => $user->role === 'koordinator'
         );
+        Gate::define(
+            'view-recap',
+            fn(User $user): bool => in_array($user->role, ['relawan', 'koordinator'], true)
+        );
         Report::observe(ReportObserver::class);
     }
 }

@@ -14,4 +14,7 @@
     @if (Auth::user()->role === 'koordinator')
         <p><a href="{{ route('external-parties.index') }}">Pihak Terkait</a></p>
     @endif
+    @if (Auth::user()->role === 'relawan' || Auth::user()->role === 'koordinator')
+        <p><a href="{{ route('recap.index') }}">Rekap Laporan</a></p>
+    @endif
 @endsection

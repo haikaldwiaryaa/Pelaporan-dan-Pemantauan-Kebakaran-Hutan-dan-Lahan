@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ForwardingController;
 use App\Http\Controllers\ExternalPartyController;
+use App\Http\Controllers\RecapController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -32,4 +33,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/external-parties/{externalParty}/edit', [ExternalPartyController::class, 'edit'])->middleware('can:manage-external-parties')->name('external-parties.edit');
     Route::put('/external-parties/{externalParty}', [ExternalPartyController::class, 'update'])->middleware('can:manage-external-parties')->name('external-parties.update');
     Route::post('/area-info', [ReportController::class, 'areaInfo'])->name('area-info');
+    Route::get('/recap', [RecapController::class, 'index'])->middleware('can:view-recap')->name('recap.index');
 });
