@@ -42,6 +42,9 @@ class ReportService
     }
     public function review(Report $report, array $data, int $userId): void
     {
+        if ($report->status === 'selesai') {
+            throw new DomainException('Laporan sudah selesai dan tidak dapat diberi catatan lagi.');
+        }
         $newStatus = $data['status'] ?? null;
 
         if ($newStatus) {
