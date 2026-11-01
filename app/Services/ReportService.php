@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Report;
 use DomainException;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Forwarding;
 
 class ReportService
 {
@@ -65,6 +66,24 @@ class ReportService
             if ($newStatus) {
                 $report->update(['status' => $newStatus]);
             }
+        });
+    }
+    public function forward(Report $report, array $data, int $userId): void
+    {
+        if ($report->status !== 'perlu_diteruskan') {
+            throw new DomainException('Laporan hanya bisa diteruskan kalau statusnya perlu_diteruskan.');
+        }
+
+        DB::transaction(function () use ($report, $data, $userId) {
+            Forwarding::create([
+                'report_id' => $report->id,
+                'external_party_id' => $data['external_party_id'],
+                'user_id' => $userId,
+                'forwarded_at' => now(),
+                'note' => $data['note'] ?? null,
+            ]);
+
+            $report->update(['status' => 'diteruskan']);
         });
     }
 }
