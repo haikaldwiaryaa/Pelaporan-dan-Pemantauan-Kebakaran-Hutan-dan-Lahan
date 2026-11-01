@@ -29,4 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/reports/{report}/forward', [ForwardingController::class, 'store'])->middleware('can:forward-report')->name('reports.forward');
     Route::get('/external-parties', [ExternalPartyController::class, 'index'])->middleware('can:manage-external-parties')->name('external-parties.index');
     Route::post('/external-parties', [ExternalPartyController::class, 'store'])->middleware('can:manage-external-parties')->name('external-parties.store');
+    Route::get('/external-parties/{externalParty}/edit', [ExternalPartyController::class, 'edit'])->middleware('can:manage-external-parties')->name('external-parties.edit');
+    Route::put('/external-parties/{externalParty}', [ExternalPartyController::class, 'update'])->middleware('can:manage-external-parties')->name('external-parties.update');
 });

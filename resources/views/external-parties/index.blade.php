@@ -14,6 +14,7 @@
                 <th>No</th>
                 <th>Nama</th>
                 <th>Kontak</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -22,10 +23,11 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $party->name }}</td>
                     <td>{{ $party->contact ?? '-' }}</td>
+                    <td><a href="{{ route('external-parties.edit', $party) }}">Ubah</a></td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3">Belum ada pihak terkait.</td>
+                    <td colspan="4">Belum ada pihak terkait.</td>
                 </tr>
             @endforelse
         </tbody>
