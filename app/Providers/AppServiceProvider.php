@@ -3,7 +3,8 @@
 namespace App\Providers;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
-
+use App\Models\Report;
+use App\Observers\ReportObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,5 +38,6 @@ class AppServiceProvider extends ServiceProvider
             'manage-external-parties',
             fn(User $user): bool => $user->role === 'koordinator'
         );
+        Report::observe(ReportObserver::class);
     }
 }
