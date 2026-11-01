@@ -59,4 +59,31 @@
             </td>
         </tr>
     </table>
+    <h3 style="margin-top: 1.5rem;">Catatan Peninjauan</h3>
+    <ul>
+        @forelse ($report->reviewNotes as $note)
+            <li>
+                {{ $note->created_at->format('d-m-Y H:i') }} - <strong>{{ $note->user->name }}</strong>:
+                {{ $note->note }}
+            </li>
+        @empty
+            <li>Belum ada catatan.</li>
+        @endforelse
+    </ul>
+
+    <h3>Riwayat Penerusan</h3>
+    <ul>
+        @forelse ($report->forwardings as $forwarding)
+            <li>
+                {{ $forwarding->forwarded_at->format('d-m-Y H:i') }} - diteruskan ke
+                <strong>{{ $forwarding->externalParty->name }}</strong>
+                oleh {{ $forwarding->user->name }}
+                @if ($forwarding->note)
+                    ({{ $forwarding->note }})
+                @endif
+            </li>
+        @empty
+            <li>Belum pernah diteruskan.</li>
+        @endforelse
+    </ul>
 @endsection
