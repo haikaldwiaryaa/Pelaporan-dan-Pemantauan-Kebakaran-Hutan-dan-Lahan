@@ -64,6 +64,7 @@
         @forelse ($report->reviewNotes as $note)
             <li>
                 {{ $note->created_at->format('d-m-Y H:i') }} - {{ $note->user->name }}:
+                {{ $note->note }}
             </li>
         @empty
             <li>Belum ada catatan.</li>
