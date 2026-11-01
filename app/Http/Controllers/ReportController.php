@@ -21,7 +21,13 @@ class ReportController extends Controller
 
     public function store(StoreReportRequest $request, ReportService $service): RedirectResponse
     {
-        $service->create($request->validated(), Auth::id());
+        $data = $request->validated();
+
+        if ($request->hasFile('evidence')) {
+            $data['evidence_path'] = $request->file('evidence')->store('evidence', 'public');
+        }
+
+        $service->create($data, Auth::id());
 
         return redirect()
             ->route('dashboard')

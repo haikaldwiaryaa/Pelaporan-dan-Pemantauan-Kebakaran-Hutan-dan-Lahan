@@ -4,7 +4,7 @@
     <a href="{{ route('dashboard') }}">&larr; Kembali</a>
     <h2>Buat Laporan</h2>
 
-    <form action="{{ route('reports.store') }}" method="POST">
+    <form action="{{ route('reports.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div style="margin-bottom: 1rem;">
@@ -75,7 +75,13 @@
                 <p class="error">{{ $message }}</p>
             @enderror
         </div>
-
+        <div style="margin-bottom: 1rem;">
+            <label for="evidence">Bukti (JPG, PNG, atau PDF, maks 2 MB, boleh kosong):</label><br>
+            <input type="file" id="evidence" name="evidence" accept=".jpg,.jpeg,.png,.pdf">
+            @error('evidence')
+                <p class="error">{{ $message }}</p>
+            @enderror
+        </div>
         <button type="submit">Kirim Laporan</button>
     </form>
 @endsection

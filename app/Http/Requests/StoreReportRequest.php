@@ -23,6 +23,7 @@ class StoreReportRequest extends FormRequest
             'location_detail' => ['nullable', 'string', 'max:255'],
             'latitude' => ['required', 'numeric', 'min:-11', 'max:6'],
             'longitude' => ['required', 'numeric', 'min:95', 'max:141'],
+            'evidence' => ['nullable', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
         ];
     }
 }
