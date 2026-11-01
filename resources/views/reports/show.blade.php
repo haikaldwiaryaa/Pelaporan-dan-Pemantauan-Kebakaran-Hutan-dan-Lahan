@@ -63,20 +63,29 @@
     <ul>
         @forelse ($report->reviewNotes as $note)
             <li>
-                {{ $note->created_at->format('d-m-Y H:i') }} - <strong>{{ $note->user->name }}</strong>:
-                {{ $note->note }}
+                {{ $note->created_at->format('d-m-Y H:i') }} - {{ $note->user->name }}:
             </li>
         @empty
             <li>Belum ada catatan.</li>
         @endforelse
     </ul>
-
+    @if (Auth::user()->role === 'relawan')
+        <form action="{{ route('reports.review', $report) }}" method="POST" style="margin-bottom: 1rem;">
+            @csrf
+            <label for="note">Tambah catatan:</label><br>
+            <textarea id="note" name="note" rows="3" style="width: 100%; padding: 0.5rem;">{{ old('note') }}</textarea>
+            @error('note')
+                <p class="error">{{ $message }}</p>
+            @enderror
+            <button type="submit">Simpan Catatan</button>
+        </form>
+    @endif
     <h3>Riwayat Penerusan</h3>
     <ul>
         @forelse ($report->forwardings as $forwarding)
             <li>
                 {{ $forwarding->forwarded_at->format('d-m-Y H:i') }} - diteruskan ke
-                <strong>{{ $forwarding->externalParty->name }}</strong>
+                {{ $forwarding->externalParty->name }}
                 oleh {{ $forwarding->user->name }}
                 @if ($forwarding->note)
                     ({{ $forwarding->note }})

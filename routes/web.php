@@ -3,6 +3,7 @@
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -22,4 +23,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
     Route::get('/reports/{report}/edit', [ReportController::class, 'edit'])->middleware('can:create-report')->name('reports.edit');
     Route::put('/reports/{report}', [ReportController::class, 'update'])->middleware('can:create-report')->name('reports.update');
+    Route::post('/reports/{report}/review', [ReviewController::class, 'store'])->middleware('can:review-report')->name('reports.review');
 });

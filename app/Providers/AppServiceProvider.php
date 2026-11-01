@@ -25,5 +25,9 @@ class AppServiceProvider extends ServiceProvider
             'create-report',
             fn(User $user): bool => $user->role === 'pelapor'
         );
+        Gate::define(
+            'review-report',
+            fn(User $user): bool => $user->role === 'relawan'
+        );
     }
 }
