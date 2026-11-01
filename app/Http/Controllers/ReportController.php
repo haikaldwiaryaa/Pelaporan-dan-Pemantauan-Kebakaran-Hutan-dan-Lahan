@@ -33,7 +33,8 @@ class ReportController extends Controller
                 $q->where('status', $status);
             })
             ->orderBy('incident_at', 'desc')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         $areas = Report::AREAS;
         $statuses = Report::STATUSES;

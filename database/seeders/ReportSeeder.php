@@ -156,5 +156,18 @@ class ReportSeeder extends Seeder
             'user_id' => $relawan->id,
             'note' => 'Hanya pembakaran sampah kecil, tidak perlu diteruskan.',
         ]);
+        for ($i = 1; $i <= 10; $i++) {
+            Report::create([
+                'user_id' => $i % 2 == 0 ? $pelapor1->id : $pelapor2->id,
+                'description' => 'Asap tipis terlihat di sekitar kebun warga, laporan nomor ' . $i . '.',
+                'condition_level' => 'asap_tipis',
+                'incident_at' => '2026-10-' . (10 + $i) . ' 08:00:00',
+                'area' => 'Kampar',
+                'location_detail' => null,
+                'latitude' => 0.3000000 + ($i / 1000),
+                'longitude' => 101.0000000 + ($i / 1000),
+                'status' => 'baru',
+            ]);
+        }
     }
 }

@@ -49,6 +49,11 @@
         a:hover {
             text-decoration: underline;
         }
+
+        nav svg {
+            width: 1rem;
+            height: 1rem;
+        }
     </style>
 </head>
 
