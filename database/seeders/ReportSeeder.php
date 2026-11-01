@@ -13,8 +13,8 @@ class ReportSeeder extends Seeder
 {
     public function run(): void
     {
-        $pelapor1 = User::where('username', 'pelapor1')->first();
-        $pelapor2 = User::where('username', 'pelapor2')->first();
+        $pelapor1 = User::where('username', 'xall')->first();
+        $pelapor2 = User::where('username', 'angpaboy')->first();
         $relawan = User::where('username', 'relawan1')->first();
         $koordinator = User::where('username', 'koordinator1')->first();
 

@@ -11,9 +11,9 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $pelapor1 = User::firstOrCreate(
-            ['username' => 'pelapor1'],
+            ['username' => 'xall'],
             [
-                'name' => 'Budi Pelapor',
+                'name' => 'Haikal',
                 'password' => Hash::make('password'),
             ]
         );
@@ -21,9 +21,9 @@ class UserSeeder extends Seeder
         $pelapor1->save();
 
         $pelapor2 = User::firstOrCreate(
-            ['username' => 'pelapor2'],
+            ['username' => 'Angpaboy'],
             [
-                'name' => 'Siti Pelapor',
+                'name' => 'Daffa',
                 'password' => Hash::make('password'),
             ]
         );
