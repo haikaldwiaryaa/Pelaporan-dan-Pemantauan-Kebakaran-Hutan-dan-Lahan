@@ -109,4 +109,29 @@
             <li>Belum pernah diteruskan.</li>
         @endforelse
     </ul>
+    @if (Auth::user()->role === 'koordinator')
+        <form action="{{ route('reports.forward', $report) }}" method="POST">
+            @csrf
+            <div style="margin-bottom: 0.5rem;">
+                <label for="external_party_id">Teruskan ke:</label>
+                <select id="external_party_id" name="external_party_id" style="padding: 0.3rem;">
+                    <option value="">-- Pilih Pihak Terkait --</option>
+                    @foreach ($externalParties as $party)
+                        <option value="{{ $party->id }}" {{ old('external_party_id') == $party->id ? 'selected' : '' }}>
+                            {{ $party->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('external_party_id')
+                    <p class="error">{{ $message }}</p>
+                @enderror
+            </div>
+            <div style="margin-bottom: 0.5rem;">
+                <label for="forward_note">Keterangan (boleh kosong):</label><br>
+                <input type="text" id="forward_note" name="note" value="{{ old('note') }}"
+                    style="width: 100%; padding: 0.5rem;">
+            </div>
+            <button type="submit">Catat Penerusan</button>
+        </form>
+    @endif
 @endsection

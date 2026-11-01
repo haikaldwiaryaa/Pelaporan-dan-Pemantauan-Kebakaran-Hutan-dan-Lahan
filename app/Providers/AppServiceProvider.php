@@ -29,5 +29,9 @@ class AppServiceProvider extends ServiceProvider
             'review-report',
             fn(User $user): bool => $user->role === 'relawan'
         );
+        Gate::define(
+            'forward-report',
+            fn(User $user): bool => $user->role === 'koordinator'
+        );
     }
 }

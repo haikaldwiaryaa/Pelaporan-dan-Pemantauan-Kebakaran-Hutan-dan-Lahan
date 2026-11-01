@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Http\Requests\UpdateReportRequest;
 use DomainException;
+use App\Models\ExternalParty;
 
 class ReportController extends Controller
 {
@@ -57,7 +58,9 @@ class ReportController extends Controller
             abort_unless($report->user_id === $user->id, 403);
         }
 
-        return view('reports.show', compact('report'));
+        $externalParties = ExternalParty::all();
+
+        return view('reports.show', compact('report', 'externalParties'));
     }
     public function edit(Report $report): View
     {

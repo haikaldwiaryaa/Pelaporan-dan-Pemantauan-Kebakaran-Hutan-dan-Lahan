@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use DomainException;
 use App\Services\ReportService;
 
+
 class ReviewController extends Controller
 {
     public function store(Request $request, Report $report, ReportService $service): RedirectResponse
