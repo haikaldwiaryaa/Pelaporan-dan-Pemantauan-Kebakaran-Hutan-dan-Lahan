@@ -7,7 +7,7 @@
     @if (session('success'))
         <p style="color: green;">{{ session('success') }}</p>
     @endif
-
+    <p><a href="{{ route('reports.index') }}">Daftar Laporan</a></p>
     @if (Auth::user()->role === 'pelapor')
         <p><a href="{{ route('reports.create') }}">+ Buat Laporan</a></p>
     @endif

@@ -11,6 +11,20 @@ use Illuminate\View\View;
 
 class ReportController extends Controller
 {
+    public function index(): View
+    {
+        $user = Auth::user();
+
+        $reports = Report::query()
+            ->with('user')
+            ->when($user->role === 'pelapor', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->orderBy('incident_at', 'desc')
+            ->paginate(10);
+
+        return view('reports.index', compact('reports'));
+    }
     public function create(): View
     {
         $areas = Report::AREAS;
@@ -30,7 +44,7 @@ class ReportController extends Controller
         $service->create($data, Auth::id());
 
         return redirect()
-            ->route('dashboard')
+            ->route('reports.index')
             ->with('success', 'Laporan berhasil dikirim.');
     }
 }
